@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "cursor/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # TODO: pin to full commit SHA before production merge
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        # TODO: pin to full commit SHA before production merge
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit and component tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+        env:
+          AUTH_PROVIDER: mock
+          NEXT_PUBLIC_DEMO_MODE: "true"
