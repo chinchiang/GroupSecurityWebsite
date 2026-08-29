@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
     <div>
       <DemoBanner locale={locale} />
       <PageHeader title={t(locale, "nav.vulnerabilities")} />
-      
+
       <DataTable
         caption="Vulnerabilities"
         emptyMessage={t(locale, "app.empty")}

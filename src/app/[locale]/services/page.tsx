@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
     <div>
       <DemoBanner locale={locale} />
       <PageHeader title={t(locale, "nav.services")} actions={<Button asChild><Link href={localizedHref(locale, "/services/new")}>New request</Link></Button>} />
-      
+
       <DataTable
         caption="Service requests"
         emptyMessage={t(locale, "app.empty")}
