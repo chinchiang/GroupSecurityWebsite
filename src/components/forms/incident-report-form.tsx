@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input, Label, Select, Textarea } from "@/components/ui/form-controls";
 import type { Locale } from "@/config/site";
 import { t } from "@/lib/i18n/dictionaries";
+import { localDateTimeInputValue, toIsoTimestamp } from "@/lib/formatting";
 
 export function IncidentReportForm({ locale }: { locale: Locale }) {
   const [resultId, setResultId] = useState<string | null>(null);
@@ -27,7 +28,7 @@ export function IncidentReportForm({ locale }: { locale: Locale }) {
       contactPreference: "email",
       urgency: "medium",
       submitAnonymouslyAcknowledged: true,
-      observedAt: new Date().toISOString().slice(0, 16),
+      observedAt: localDateTimeInputValue(),
     },
   });
 
@@ -37,7 +38,12 @@ export function IncidentReportForm({ locale }: { locale: Locale }) {
 
   async function onSubmit(values: IncidentReportInput) {
     setServerErrors([]);
-    const res = await submitIncidentReport(values);
+    // datetime-local values carry no zone; stamp the browser's zone before
+    // the server stores it.
+    const res = await submitIncidentReport({
+      ...values,
+      observedAt: toIsoTimestamp(values.observedAt),
+    });
     if (!res.ok) {
       setServerErrors(res.errors);
       return;

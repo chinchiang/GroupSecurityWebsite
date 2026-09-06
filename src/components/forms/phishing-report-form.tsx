@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input, Label, Select, Textarea } from "@/components/ui/form-controls";
 import type { Locale } from "@/config/site";
 import { t } from "@/lib/i18n/dictionaries";
+import { localDateTimeInputValue, toIsoTimestamp } from "@/lib/formatting";
 
 export function PhishingReportForm({ locale }: { locale: Locale }) {
   const [resultId, setResultId] = useState<string | null>(null);
@@ -25,7 +26,7 @@ export function PhishingReportForm({ locale }: { locale: Locale }) {
     defaultValues: {
       hasAttachment: "unknown",
       hasLink: "unknown",
-      receivedTime: new Date().toISOString().slice(0, 16),
+      receivedTime: localDateTimeInputValue(),
       senderAddress: "suspicious@example.invalid",
     },
   });
@@ -36,7 +37,12 @@ export function PhishingReportForm({ locale }: { locale: Locale }) {
 
   async function onSubmit(values: PhishingReportInput) {
     setServerErrors([]);
-    const res = await submitPhishingReport(values);
+    // datetime-local values carry no zone; stamp the browser's zone before
+    // the server stores it.
+    const res = await submitPhishingReport({
+      ...values,
+      receivedTime: toIsoTimestamp(values.receivedTime),
+    });
     if (!res.ok) {
       setServerErrors(res.errors);
       return;

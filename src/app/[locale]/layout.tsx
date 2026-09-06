@@ -6,6 +6,7 @@ import { can } from "@/lib/authorization";
 import { Sidebar } from "@/components/navigation/sidebar";
 import { TopBar } from "@/components/navigation/top-bar";
 import { AppFooter } from "@/components/layout/footer";
+import { HtmlLang } from "@/components/layout/html-lang";
 import { formatDateTime } from "@/lib/formatting";
 
 export default async function LocaleLayout({
@@ -43,6 +44,7 @@ export default async function LocaleLayout({
 
   return (
     <div className="flex min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] text-slate-900">
+      <HtmlLang locale={locale} />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2"

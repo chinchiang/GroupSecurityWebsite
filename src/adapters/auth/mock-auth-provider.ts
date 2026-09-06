@@ -16,12 +16,22 @@ export class MockAuthProvider implements AuthProvider {
     if (process.env.NODE_ENV === "production" && process.env.AUTH_PROVIDER !== "mock") {
       return null;
     }
+    const envRole = process.env.DEMO_DEFAULT_ROLE;
+    const fallbackRole: UserRole =
+      envRole && isUserRole(envRole) ? envRole : "employee";
+
+    // The demo_role cookie is unsigned, so it is only ever honoured in
+    // development. A production demo build (AUTH_PROVIDER=mock) pins every
+    // visitor to DEMO_DEFAULT_ROLE; otherwise anyone could forge the cookie
+    // and grant themselves Portal Admin.
+    if (process.env.NODE_ENV === "production") {
+      return buildDemoSession(fallbackRole);
+    }
+
     const jar = await cookies();
     const roleCookie = jar.get(DEMO_ROLE_COOKIE)?.value;
     const role =
-      roleCookie && isUserRole(roleCookie)
-        ? roleCookie
-        : ((process.env.DEMO_DEFAULT_ROLE as UserRole) || "employee");
+      roleCookie && isUserRole(roleCookie) ? roleCookie : fallbackRole;
     return buildDemoSession(role);
   }
 

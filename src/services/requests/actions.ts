@@ -58,7 +58,7 @@ export async function submitIncidentReport(
     timestamp: new Date().toISOString(),
     outcome: "success",
   });
-  revalidatePath("/operations/incidents");
+  revalidatePath("/[locale]/operations/incidents", "page");
   return { ok: true, id: incident.id, message: "Demo incident created" };
 }
 
@@ -95,7 +95,7 @@ export async function submitPhishingReport(
     timestamp: new Date().toISOString(),
     outcome: "success",
   });
-  revalidatePath("/operations/incidents");
+  revalidatePath("/[locale]/operations/incidents", "page");
   return { ok: true, id: incident.id, message: "Demo phishing report created" };
 }
 
@@ -132,6 +132,6 @@ export async function submitServiceRequest(
     timestamp: new Date().toISOString(),
     outcome: "success",
   });
-  revalidatePath("/services");
+  revalidatePath("/[locale]/services", "page");
   return { ok: true, id: request.id, message: "Demo service request created" };
 }
