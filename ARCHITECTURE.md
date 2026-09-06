@@ -25,7 +25,7 @@ Greenfield repository. Adopted default stack from project brief:
 - `src/components/tables` — DataTable
 - `src/components/forms` — incident / phishing / service request
 - `src/components/status` — severity / status badges
-- `src/components/ui` — primitives (Button, Input, Dialog, …)
+- `src/components/ui` — primitives (Button, Input, Select, Textarea, Label)
 
 ## Domain architecture
 

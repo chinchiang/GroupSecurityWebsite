@@ -22,7 +22,7 @@ Out of scope for MVP runtime: defending a production IdP, OT network isolation, 
 
 - No username/password login
 - `MockAuthProvider` + Demo Session
-- Development Role Switcher only (`NODE_ENV === "development"`)
+- Development Role Switcher only (`NODE_ENV === "development"`); the unsigned `demo_role` cookie is ignored in production builds, which pin every visitor to `DEMO_DEFAULT_ROLE`
 - Production without formal Auth Provider → Configuration Error (never auto-grant Portal Admin)
 
 ## Authorization model
