@@ -5,6 +5,13 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # `next` and `eslint-config-next` are released in lockstep from the same
+    # monorepo; bump them in one PR so neither lands out of step with the other.
+    groups:
+      next:
+        patterns:
+          - "next"
+          - "eslint-config-next"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
