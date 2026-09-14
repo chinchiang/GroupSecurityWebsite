@@ -12,6 +12,15 @@ updates:
         patterns:
           - "next"
           - "eslint-config-next"
+      # react-dom exact-pins its matching react (peer `react@^<same version>`),
+      # so a split pair is unmergeable: the react-dom half fails `npm ci` on the
+      # peer conflict and the react half fails the tests. Bump them together.
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
